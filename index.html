@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>多平台小程序备案 AI 中枢 · multi-mini-filing-aide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css?v=20260808-4" />
+</head>
+<body>
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+<div class="orb a"></div>
+<div class="orb b"></div>
+
+<div class="shell">
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🛰️</div>
+      <div class="title">多平台小程序备案 AI 中枢<small>MULTI-MINI-FILING-AIDE</small></div>
+    </div>
+    <div class="spacer"></div>
+    <div class="stat-chip"><span class="dot" id="qoderDot"></span><span id="qoderStat">Qoder 云脑 就绪</span></div>
+    <div class="stat-chip"><span class="dot" id="notifyDot"></span><span id="notifyStat">通知通道 3/3</span></div>
+    <div class="stat-chip" id="schedChip" style="display:none"><span class="dot" id="schedDot"></span><span id="schedStat">巡检 --:--</span></div>
+    <button class="topbar-btn" id="btnConfigHelp" title="使用系统前的参数配置说明">⚙️ 配置说明</button>
+    <button class="icon-btn" id="btnLogout" title="退出登录">⏻</button>
+    <div class="clock" id="clock">--:--:--</div>
+  </header>
+
+  <!-- 侧边导航 -->
+  <aside class="sidebar">
+    <div class="nav-group-label">工作台</div>
+    <div class="nav-item active" data-view="overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      <span>总览驾驶舱</span>
+    </div>
+    <div class="nav-group-label">五大模块</div>
+    <div class="nav-item" data-view="diagnose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span>备案诊断台</span>
+    </div>
+    <div class="nav-item" data-view="material">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2h6v4H9z"/><path d="M5 6h14v16H5z"/><path d="M9 12h6M9 16h6"/></svg>
+      <span>材料预审台</span>
+    </div>
+    <div class="nav-item" data-view="progress">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+      <span>进度看板</span>
+    </div>
+    <div class="nav-item" data-view="risk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>
+      <span>风险提醒中心</span><span class="badge" id="riskBadge">0</span>
+    </div>
+    <div class="nav-item" data-view="qa">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg>
+      <span>政策问答</span>
+    </div>
+    <div class="nav-group-label">系统</div>
+    <div class="nav-item" data-view="agentlog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+      <span>Agent 活动</span>
+    </div>
+    <div class="nav-item" data-view="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      <span>参数设置</span>
+    </div>
+    <div class="foot">Qoder Cloud Agents<br/>五平台备案合规中枢</div>
+  </aside>
+
+  <!-- 主区 -->
+  <main class="main">
+    <div class="inline-notify" id="inlineNotify"></div>
+
+    <!-- 总览 -->
+    <section class="view active" id="view-overview">
+      <div class="view-head">
+        <div class="crumbs">OVERVIEW · 总览驾驶舱</div>
+        <h1>多平台小程序备案 — 实时态势</h1>
+        <p>把分散在五平台、多文档、群聊里的备案知识沉淀为一个可对话、可预警、可协作的 AI 中枢。数据由后端 SQLite 真实存储、按登记表日期实时计算；未配置 Qoder PAT 时以规则引擎运行，配置后即接入 Qoder Cloud Agents 多 Agent 推理。</p>
+      </div>
+      <div class="grid-4">
+        <div class="card metric"><div class="label">在备 / 待上线小程序</div><div class="value cyan" id="mTotal">5</div><div class="sub">覆盖 5 大平台</div></div>
+        <div class="card metric"><div class="label">临近超时预警</div><div class="value amber" id="mWarn">2</div><div class="sub">核验/管局硬 deadline</div></div>
+        <div class="card metric"><div class="label">已上线合规</div><div class="value mint" id="mDone">1</div><div class="sub">备案号已悬挂</div></div>
+        <div class="card metric"><div class="label">今日巡检</div><div class="value violet" id="mScan">0</div><div class="sub">QAC 定时触发</div></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3><span class="ic">⚡</span>自动化链路 · 定时 Deployment + Webhook 回调</h3>
+        <div class="pipeline">
+          <div class="pipe-step"><div class="num">01</div><div class="nm">Qoder Deployment</div><div class="ds">云端定时启动巡检 Session</div></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step"><div class="num">02</div><div class="nm">多 Agent 协作</div><div class="ds">备案诊断 / 材料预审 / 进度巡检 / 政策问答</div></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step"><div class="num">03</div><div class="nm">Webhook 事件回调</div><div class="ds">Session 完成主动 POST</div></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step"><div class="num">04</div><div class="nm">三通道通知</div><div class="ds">企微 / 钉钉 / 飞书</div></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnSimScan">▶ 模拟 Qoder 定时巡检</button>
+          <button class="btn btn-ghost" data-jump="diagnose">进入诊断台 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 诊断台 -->
+    <section class="view" id="view-diagnose">
+      <div class="view-head">
+        <div class="crumbs">MODULE 01 · 备案诊断台</div>
+        <h1>备案诊断台</h1>
+        <p>选择目标平台与业务属性，AI 给出五平台对照结论。统一口径：所有小程序均需备案，差异仅在材料与流程。</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🎯</span>诊断条件</h3>
+          <div class="field"><label class="fld">目标平台（可多选）</label><div class="chips" id="diagPlatforms"></div></div>
+          <div class="field"><label class="fld">业务类型</label>
+            <select id="diagBiz"><option>电商 / 交易</option><option>内容 / 资讯</option><option>工具 / 服务</option><option>教育</option><option>医疗健康</option><option>微短剧</option><option>其他</option></select>
+          </div>
+          <div class="field"><label class="fld">主体性质</label>
+            <select id="diagSubject"><option>企业</option><option>个体工商户</option><option>个人</option></select>
+          </div>
+          <div class="btn-row"><button class="btn btn-primary" id="btnDiag">生成诊断报告</button></div>
+        </div>
+        <div class="card">
+          <h3><span class="ic">📋</span>诊断结论</h3>
+          <div class="export-bar">
+            <button class="xbtn" data-x="pdf" data-target="diagResult" data-title="备案诊断报告">PDF</button>
+            <button class="xbtn" data-x="md" data-target="diagResult" data-title="备案诊断报告">MD</button>
+            <button class="xbtn" data-x="html" data-target="diagResult" data-title="备案诊断报告">HTML</button>
+          </div>
+          <div id="diagResult"><div class="empty">选择条件后点击「生成诊断报告」</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 材料预审台 -->
+    <section class="view" id="view-material">
+      <div class="view-head">
+        <div class="crumbs">MODULE 02 · 材料预审台</div>
+        <h1>材料预审台</h1>
+        <p>按平台结构化填写材料字段，提交前预判驳回风险。纯文本字段校验，不依赖证件图像识别。</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🗂️</span>材料清单填写</h3>
+          <div class="field"><label class="fld">目标平台</label><select id="matPlatform"></select></div>
+          <div id="matFields"></div>
+          <div class="btn-row"><button class="btn btn-primary" id="btnMat">预审提交</button></div>
+        </div>
+        <div class="card">
+          <h3><span class="ic">🔍</span>驳回风险预判</h3>
+          <div class="export-bar">
+            <button class="xbtn" data-x="pdf" data-target="matResult" data-title="材料预审报告">PDF</button>
+            <button class="xbtn" data-x="md" data-target="matResult" data-title="材料预审报告">MD</button>
+            <button class="xbtn" data-x="html" data-target="matResult" data-title="材料预审报告">HTML</button>
+          </div>
+          <div id="matResult"><div class="empty">填写完成后点击「预审提交」</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 进度看板 -->
+    <section class="view" id="view-progress">
+      <div class="view-head">
+        <div class="crumbs">MODULE 03 · 进度看板</div>
+        <h1>进度看板</h1>
+        <p>登记各平台关键里程碑日期，系统实时计算当前阶段与剩余天数。数据存于本地，不上云明文。</p>
+      </div>
+      <div class="card" style="margin-bottom:18px">
+        <h3><span class="ic">➕</span>登记备案进度</h3>
+        <div class="grid-3">
+          <div class="field"><label class="fld">平台</label><select id="prPlatform"></select></div>
+          <div class="field"><label class="fld">小程序名称</label><input id="prName" placeholder="如 门店会员小程序" /></div>
+          <div class="field"><label class="fld">提交备案日</label><input id="prSubmit" type="date" /></div>
+          <div class="field"><label class="fld">短信核验完成日</label><input id="prVerify" type="date" /></div>
+          <div class="field"><label class="fld">管局受理日</label><input id="prGov" type="date" /></div>
+          <div class="field"><label class="fld">操作</label><button class="btn btn-primary" id="btnPrAdd" style="width:100%">登记</button></div>
+        </div>
+      </div>
+      <div class="export-bar">
+        <button class="xbtn" data-x="pdf" data-target="prList" data-title="备案进度看板">PDF</button>
+        <button class="xbtn" data-x="md" data-target="prList" data-title="备案进度看板">MD</button>
+        <button class="xbtn" data-x="html" data-target="prList" data-title="备案进度看板">HTML</button>
+      </div>
+      <div id="prList" class="stack"></div>
+    </section>
+
+    <!-- 风险提醒中心 -->
+    <section class="view" id="view-risk">
+      <div class="view-head">
+        <div class="crumbs">MODULE 04 · 风险提醒中心</div>
+        <h1>风险与提醒中心</h1>
+        <p>基于登记表日期与当前日期实时计算风险；经 Qoder Webhook 回传的提醒在此汇总，并推送到启用的通道。</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">⚠️</span>实时风险清单</h3>
+          <div class="export-bar">
+            <button class="xbtn" data-x="pdf" data-target="riskList" data-title="实时风险清单">PDF</button>
+            <button class="xbtn" data-x="md" data-target="riskList" data-title="实时风险清单">MD</button>
+            <button class="xbtn" data-x="html" data-target="riskList" data-title="实时风险清单">HTML</button>
+          </div>
+          <div id="riskList"></div>
+        </div>
+        <div class="card">
+          <h3><span class="ic">🔔</span>通知通道</h3>
+          <div id="chanList" class="stack"></div>
+          <div class="divider"></div>
+          <div class="btn-row"><button class="btn btn-violet" id="btnWebhook">📡 模拟 Qoder Webhook 回调</button></div>
+          <p class="hint">点击后，系统模拟 Qoder 完成巡检并主动 POST 事件，依启用通道推送提醒。</p>
+        </div>
+      </div>
+
+      <!-- 定时巡检控制（原位于参数设置页，迁移至此） -->
+      <div class="card" style="margin-top:18px">
+        <h3><span class="ic">⏰</span>定时自动巡检</h3>
+        <p class="hint" style="margin-bottom:14px">开启后，以<b>云端 Qoder Deployment（cron，Asia/Shanghai）每日整点巡检为主</b>，本地兜底线程（整点末尾）为辅，二者共用去重不会同日双推；进程重启不影响云端调度。关闭时仅支持下方「立即巡检」手动触发。</p>
+        <div class="toggle-row" style="margin-bottom:14px">
+          <div>
+            <div class="toggle-title">启用每日自动巡检</div>
+            <div class="toggle-desc">云端 Deployment 为主，本地兜底线程为辅（仅云端当天未跑时于整点末尾触发）。</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="setScheduler" /><span class="track"></span></label>
+        </div>
+        <div class="field" id="schedHourRow" style="display:none">
+          <label class="fld">巡检时间（整点）</label>
+          <select id="setSchedHour" style="max-width:200px">
+            <option value="0">00:00 (午夜)</option><option value="1">01:00</option><option value="2">02:00</option><option value="3">03:00</option><option value="4">04:00</option><option value="5">05:00</option><option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option><option value="9">09:00</option><option value="10" selected>10:00</option><option value="11">11:00</option><option value="12">12:00</option><option value="13">13:00</option><option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option><option value="17">17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option><option value="21">21:00</option><option value="22">22:00</option><option value="23">23:00</option>
+          </select>
+        </div>
+        <div class="btn-row" style="margin-top:14px">
+          <button class="btn btn-primary" id="btnRunInspectNow">▶ 立即巡检一次</button>
+          <span id="inspectNowStatus" class="hint" style="margin-left:8px"></span>
+        </div>
+        <div id="depMini" class="hint" style="margin-top:6px"></div>
+      </div>
+
+      <!-- 巡检播报历史 -->
+      <div class="card" style="margin-top:18px">
+        <h3><span class="ic">📢</span>巡检播报历史
+          <button class="btn btn-ghost btn-sm" id="btnRefreshInspect" style="float:right;padding:4px 12px;font-size:11px">🔄 刷新</button>
+        </h3>
+        <p class="hint" style="margin-bottom:14px">每次巡检（手动 / 定时 / Webhook 回调）的完整播报均在此留存，包含 <b>filing-progress-agent</b> 生成的智能播报与基础风险清单。展开可查看全文，并回看各通道推送结果。</p>
+        <div id="inspectHistory"></div>
+      </div>
+    </section>
+
+    <!-- Agent 活动审计 -->
+    <section class="view" id="view-agentlog">
+      <div class="view-head">
+        <div class="crumbs">SYSTEM · AGENT ACTIVITY</div>
+        <h1>Agent 活动 · 审计时间线</h1>
+        <p>Qoder Cloud Agents 的 Webhook 事件（Agent / Session / Thread 生命周期）实时回传并在此留痕；配合 Qoder Deployment 实现云端定时巡检的闭环可观测。</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="ic">🛰️</span>部署与回调状态</h3>
+        <div id="depStatus" class="stack"></div>
+        <div class="divider"></div>
+        <p class="hint">将下方地址注册到 Qoder（<code>POST /webhook_endpoints</code>，订阅事件如 <code>session.status_idled</code>、<code>agent.created</code>），即可接收真实事件回调。验签密钥使用参数设置中的 <b>QODER_WEBHOOK_SIGNING_SECRET</b>。</p>
+        <div class="field">
+          <label class="fld">本机 Webhook 接收地址</label>
+          <input id="whUrl" readonly />
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="btnCopyWh">📋 复制地址</button>
+          <button class="btn btn-violet" id="btnWhSelftest">🔁 签名回环自测</button>
+          <button class="btn btn-primary" id="btnRefreshLog">🔄 刷新</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3><span class="ic">🔗</span>Webhook 端点管理</h3>
+        <p class="hint">在 Qoder 云端创建 / 管理 Webhook 端点，订阅 Agent 生命周期事件。创建后 Qoder 会主动向你的接收地址推送事件。</p>
+
+        <!-- 创建端点表单 -->
+        <div id="whEpForm" style="margin-bottom:14px">
+          <div class="field" style="margin-bottom:8px">
+            <label class="fld">回调地址 (URL)</label>
+            <input id="whEpUrl" placeholder="http://127.0.0.1:7860/api/qoder-webhook" />
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label class="fld">订阅事件（可多选）</label>
+            <div id="whEpEvents" class="chip-group"></div>
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label class="fld">描述（可选，便于管理识别）</label>
+            <input id="whEpDesc" placeholder="如：备案巡检回调" />
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btnCreateWhEp">➕ 创建端点</button>
+            <button class="btn btn-ghost" id="btnRefreshWhEps">🔄 刷新列表</button>
+          </div>
+          <p class="hint" style="margin-top:8px">签名密钥由 Qoder 在创建后<strong>自动生成并返回一次</strong>，系统会立即写入「参数设置 → QODER_WEBHOOK_SIGNING_SECRET」用于后续投递验签，无需手动填写。</p>
+        </div>
+
+        <!-- 创建后的一次性密钥提示（仅显示这一次） -->
+        <div id="whEpSecretOnce" style="display:none"></div>
+
+        <!-- 已有端点列表 -->
+        <div id="whEpList"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3><span class="ic">📜</span>事件时间线</h3>
+        <div id="agentLog" class="stack"></div>
+      </div>
+    </section>
+
+    <!-- 政策问答 -->
+    <section class="view" id="view-qa">
+      <div class="view-head">
+        <div class="crumbs">MODULE 05 · 政策问答</div>
+        <h1>政策问答</h1>
+        <p>自然语言问政策，结论带来源引用。接入 Qoder 后由知识库 RAG 驱动，反幻觉。</p>
+      </div>
+      <div class="card">
+        <div class="chat" id="qaChat">
+          <div class="msg ai">你好，我是备案合规助手。可以问我：「小程序都要备案吗？」「备案要多久？」「快手备案流程？」「微短剧要什么材料？」等。</div>
+        </div>
+        <div class="chat-input">
+          <input id="qaInput" placeholder="输入备案相关问题，回车发送…" />
+          <button class="btn btn-primary" id="btnQa">发送</button>
+        </div>
+        <p class="hint" style="margin-top:10px">快捷：<span class="tag" data-q="小程序都要备案吗">都要备？</span><span class="tag" data-q="备案要多久">时效</span><span class="tag" data-q="快手备案流程">快手</span><span class="tag" data-q="微短剧要什么">微短剧</span><span class="tag" data-q="短信核验超时">核验超时</span></p>
+      </div>
+    </section>
+
+    <!-- 参数设置 -->
+    <section class="view" id="view-settings">
+      <div class="view-head">
+        <div class="crumbs">SYSTEM · 参数设置</div>
+        <h1>参数设置</h1>
+        <p>配置 Qoder Cloud Agents 与三通道通知。优先级：<b>页面设置 &gt; 环境变量（.env）</b>；保存后即时生效并持久化到本地数据库，重启不丢。</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="ic">🤖</span>Qoder Cloud Agents</h3>
+        <div class="field"><label class="fld">QODER_PAT（访问令牌）</label><input id="set_QODER_PAT" type="password" autocomplete="off" placeholder="粘贴你的 Qoder PAT" /></div>
+        <p class="hint" style="margin-top:6px">此 PAT 同时作为<b>数据隔离标识</b>：在本系统录入/查看的所有数据（小程序登记、巡检历史、事件时间线）都按该 PAT 划分。换一个 PAT（参数设置 &gt; 环境变量）即切换到另一个独立空间，只能看到该 PAT 对应的数据；他人录入自己的 PAT 也同理互不可见。<b>该值仅用于派生隔离，绝不返回给前端。</b></p>
+        <div class="field"><label class="fld">QODER_API_BASE</label><input id="set_QODER_API_BASE" autocomplete="off" placeholder="https://api.qoder.com/api/v1/cloud" /></div>
+        <div class="field"><label class="fld">QODER_MODEL</label><input id="set_QODER_MODEL" autocomplete="off" placeholder="ultimate" /></div>
+        <div class="field"><label class="fld">QODER_WEBHOOK_SIGNING_SECRET</label><input id="set_QODER_WEBHOOK_SIGNING_SECRET" type="password" autocomplete="off" placeholder="Qoder Webhook 验签密钥，用于校验 /api/qoder-webhook 回调，在Agent活动-创建端点成功后会自动写入用于后续投递验签" /></div>
+      </div>
+
+      <div class="card">
+        <h3><span class="ic">🔐</span>访问安全</h3>
+        <div class="field"><label class="fld">访问密码（ACCESS_PASSWORD）</label>
+          <div id="set_ACCESS_PASSWORD_wrap">
+            <input id="set_ACCESS_PASSWORD" type="password" autocomplete="off" placeholder="管理员可在此修改访问密码；留空 = 关闭鉴权" />
+            <p id="set_ACCESS_PASSWORD_info" class="hint" style="margin-top:6px"></p>
+          </div>
+        </div>
+        <p class="hint" style="margin-top:6px">普通成员（访客）无法修改访问密码；只有持有环境变量 <b>MASTER_PASSWORD</b> 的管理员登录后才能改。若未配置 MASTER_PASSWORD，则沿用旧逻辑（任何登录者均可在本页改密码）。</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="ic">🔔</span>通知通道 Webhook</h3>
+        <div class="field"><label class="fld">企业微信 Webhook URL</label><input id="set_WECHAT_WEBHOOK_URL" autocomplete="off" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=..." /></div>
+        <div class="field"><label class="fld">钉钉 Webhook URL</label><input id="set_DINGTALK_WEBHOOK_URL" autocomplete="off" placeholder="https://oapi.dingtalk.com/robot/send?access_token=..." /></div>
+        <div class="field"><label class="fld">钉钉 加签密钥</label><input id="set_DINGTALK_SIGN_SECRET" type="password" autocomplete="off" placeholder="钉钉机器人「安全设置 - 加签」secret" /></div>
+        <div class="field"><label class="fld">飞书 Webhook URL</label><input id="set_FEISHU_WEBHOOK_URL" autocomplete="off" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/..." /></div>
+        <div class="field"><label class="fld">飞书 签名密钥</label><input id="set_FEISHU_SIGN_SECRET" type="password" autocomplete="off" placeholder="飞书机器人 sign secret" /></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnSaveSettings">💾 保存设置</button>
+        <button class="btn btn-ghost" id="btnResetSettings">恢复环境变量默认值</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+<div id="modalRoot"></div>
+
+<!-- 访问密码登录层 -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo">🛰️</div>
+    <div class="login-title">多平台小程序备案 AI 中枢</div>
+    <div class="login-sub">请输入访问密码以继续使用</div>
+    <input id="loginPwd" type="password" autocomplete="off" placeholder="访问密码，默认123456" />
+    <div class="login-err" id="loginErr"></div>
+    <button class="btn btn-primary" id="btnLogin">🔓 登录</button>
+    <button class="login-help-btn" id="btnLoginConfigHelp" type="button">⚙️ 使用前的参数配置说明</button>
+  </div>
+</div>
+
+<script src="js/data.js?v=20260806"></script>
+<script src="js/lib/marked.min.js"></script>
+<script src="js/lib/dompurify.min.js"></script>
+<script src="js/app.js?v=20260808-4"></script>
+</body>
+</html>
